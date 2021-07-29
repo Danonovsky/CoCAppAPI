@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoCAppAPI", "CoCAppAPI\CoCAppAPI.csproj", "{16EA5C40-FD46-4857-A23D-21B68CA560EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoCAppAPI", "CoCAppAPI\CoCAppAPI.csproj", "{16EA5C40-FD46-4857-A23D-21B68CA560EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{BB81470B-7EE5-468D-8044-87364FE6E4D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{23846CAF-7980-4290-8D2D-B7D2379864A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A4EC972F-9715-47ED-9C28-5A8CA921A42B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbLibrary", "Library\DbLibrary\DbLibrary.csproj", "{EF532E40-60DA-40DF-89F2-26EC0A8964B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthModule", "AuthModule\AuthModule.csproj", "{A9C54624-6953-4F3A-BCCD-BAB8C4F43936}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +25,21 @@ Global
 		{16EA5C40-FD46-4857-A23D-21B68CA560EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16EA5C40-FD46-4857-A23D-21B68CA560EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16EA5C40-FD46-4857-A23D-21B68CA560EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF532E40-60DA-40DF-89F2-26EC0A8964B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF532E40-60DA-40DF-89F2-26EC0A8964B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF532E40-60DA-40DF-89F2-26EC0A8964B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF532E40-60DA-40DF-89F2-26EC0A8964B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9C54624-6953-4F3A-BCCD-BAB8C4F43936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9C54624-6953-4F3A-BCCD-BAB8C4F43936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9C54624-6953-4F3A-BCCD-BAB8C4F43936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9C54624-6953-4F3A-BCCD-BAB8C4F43936}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EF532E40-60DA-40DF-89F2-26EC0A8964B3} = {23846CAF-7980-4290-8D2D-B7D2379864A8}
+		{A9C54624-6953-4F3A-BCCD-BAB8C4F43936} = {BB81470B-7EE5-468D-8044-87364FE6E4D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12D416E6-23C2-4FB4-B531-A7D7B776A3E6}
