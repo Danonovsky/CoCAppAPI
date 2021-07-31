@@ -18,6 +18,8 @@ namespace AuthModule.Services
         AuthenticateResponse Authenticate(AuthenticateRequest model);
         IEnumerable<User> GetAll();
         User GetById(Guid id);
+
+        bool Register(RegisterRequest model);
     }
     public class UserService : IUserService
     {
@@ -67,6 +69,20 @@ namespace AuthModule.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public bool Register(RegisterRequest model)
+        {
+            if (_context.Users.Any(x => x.Email.Equals(model.Email) || x.Nickname.Equals(model.Nickname))) return false;
+            if (!model.Password.Equals(model.ConfirmPassword)) return false;
+            _context.Users.Add(new User()
+            {
+                Email = model.Email,
+                Password = model.Password,
+                Nickname = model.Nickname
+            });
+            return _context.SaveChanges() > 0;
+
         }
     }
 }

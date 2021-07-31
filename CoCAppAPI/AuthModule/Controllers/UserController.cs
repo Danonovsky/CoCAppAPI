@@ -28,6 +28,14 @@ namespace AuthModule.Controllers
             return Ok(response);
         }
 
+        [HttpPost("register")]
+        public IActionResult Register(RegisterRequest model)
+        {
+            var response = _userService.Register(model);
+            if (!response) return BadRequest(new { message = "Email or Nickname taken, or passwords doesn't match." });
+            return Ok();
+        }
+
         [Authorize]
         [HttpGet]
         public IActionResult GetAll()
