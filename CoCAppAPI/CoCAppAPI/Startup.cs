@@ -1,7 +1,9 @@
 using AuthModule.Helpers;
 using AuthModule.Services;
+using DbLibrary.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +27,7 @@ namespace CoCAppAPI
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
+            services.AddDbContext<CoCDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection"), b => b.MigrationsAssembly("CoCAppAPI")));
             services.AddScoped<IUserService, UserService>();
         }
 

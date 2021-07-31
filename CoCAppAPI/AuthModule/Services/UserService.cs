@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Security.Claims;
+using DbLibrary.DAL;
 
 namespace AuthModule.Services
 {
@@ -26,15 +27,19 @@ namespace AuthModule.Services
         };
 
         private readonly AppSettings _appSettings;
+        private readonly CoCDbContext _context;
 
-        public UserService(IOptions<AppSettings> appSettings)
+        public UserService(
+            IOptions<AppSettings> appSettings,
+            CoCDbContext context)
         {
             _appSettings = appSettings.Value;
+            _context = context;
         }
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _users.SingleOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+            var user = _context.Users.SingleOrDefault(x => x.Email == model.Email && x.Password == model.Password);
             if (user == null) return null;
             var token = generateJwtToken(user);
             return new AuthenticateResponse(user, token);
@@ -42,12 +47,12 @@ namespace AuthModule.Services
 
         public IEnumerable<User> GetAll()
         {
-            return _users;
+            return _context.Users;
         }
 
         public User GetById(Guid id)
         {
-            return _users.FirstOrDefault(x => x.Id == id);
+            return _context.Users.FirstOrDefault(x => x.Id == id);
         }
 
         private string generateJwtToken(User user)
