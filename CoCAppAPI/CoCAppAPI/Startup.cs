@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RollModule.Services;
 
 namespace CoCAppAPI
 {
@@ -29,6 +30,7 @@ namespace CoCAppAPI
 
             services.AddDbContext<CoCDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection"), b => b.MigrationsAssembly("CoCAppAPI")));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRollService, RollService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
