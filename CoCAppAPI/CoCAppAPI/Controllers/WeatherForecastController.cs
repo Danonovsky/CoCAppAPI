@@ -3,10 +3,17 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace CoCAppAPI.Controllers
 {
+    public class SaveRequest
+    {
+        public string Title { get; set; }
+        public List<string> Images { get; set; }
+    }
+
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -34,6 +41,26 @@ namespace CoCAppAPI.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost]
+        public IActionResult Save(SaveRequest model)
+        {
+            string saveUrl = "D:/Dokumenty/zlecenia/aukcje/zdjecia/"+model.Title+"/";
+            bool exists = System.IO.Directory.Exists(saveUrl);
+
+            if (!exists)
+                System.IO.Directory.CreateDirectory(saveUrl);
+
+            using (WebClient client = new WebClient())
+            {
+                for(int i=0;i<model.Images.Count;i++)
+                {
+                    client.DownloadFile(new Uri(model.Images[i]), saveUrl + i.ToString() + ".jpg");
+                }
+                //client.DownloadFile(new)
+            }
+            return Ok();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace AuthModule.Controllers
         {
             var response = _userService.Authenticate(model);
 
-            if(response == null) return BadRequest(new { message = "Username or password is incorrect. HEHEHEHEHE." });
+            if(response == null) return Unauthorized(new { message = "Username or password is incorrect. HEHEHEHEHE." });
             return Ok(response);
         }
 
@@ -32,7 +32,7 @@ namespace AuthModule.Controllers
         public IActionResult Register(RegisterRequest model)
         {
             var response = _userService.Register(model);
-            if (!response) return BadRequest(new { message = "Email or Nickname taken, or passwords doesn't match." });
+            if (!response) return UnprocessableEntity(new { message = "Email or Nickname taken, or passwords doesn't match." });
             return Ok();
         }
 
