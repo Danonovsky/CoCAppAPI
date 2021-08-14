@@ -23,11 +23,6 @@ namespace AuthModule.Services
     }
     public class UserService : IUserService
     {
-        private List<User> _users = new List<User>
-        {
-            new User { Id = Guid.Parse("0e532b37-d567-447f-b110-82bf8941ccc0"), Email = "email@gmail.com", Nickname = "Nickname", Password = "Password" }
-        };
-
         private readonly AppSettings _appSettings;
         private readonly CoCDbContext _context;
 

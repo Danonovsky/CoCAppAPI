@@ -13,5 +13,7 @@ namespace DbLibrary.Models.User
         [JsonIgnore]
         public string Password { get; set; }
         public string Nickname { get; set; }
+
+        public virtual ICollection<Game.Game> Games { get; set; }
     }
 }
