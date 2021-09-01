@@ -1,6 +1,7 @@
 using AuthModule.Helpers;
 using AuthModule.Services;
 using DbLibrary.DAL;
+using GameModule.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,9 @@ namespace CoCAppAPI
             services.AddDbContext<CoCDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection"), b => b.MigrationsAssembly("CoCAppAPI")));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRollService, RollService>();
+            services.AddScoped<IGameService, GameService>();
+
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
