@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoCAppAPI.Migrations
 {
     [DbContext(typeof(CoCDbContext))]
-    [Migration("20210814141142_Games")]
-    partial class Games
+    [Migration("20210902204453_Inittttt")]
+    partial class Inittttt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,27 @@ namespace CoCAppAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("DbLibrary.Models.Game.GamePlayer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GamePlayers");
                 });
 
             modelBuilder.Entity("DbLibrary.Models.User.User", b =>
@@ -74,8 +95,33 @@ namespace CoCAppAPI.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DbLibrary.Models.Game.GamePlayer", b =>
+                {
+                    b.HasOne("DbLibrary.Models.Game.Game", "Game")
+                        .WithMany("GamePlayers")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DbLibrary.Models.User.User", "User")
+                        .WithMany("GamePlayers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Game");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DbLibrary.Models.Game.Game", b =>
+                {
+                    b.Navigation("GamePlayers");
+                });
+
             modelBuilder.Entity("DbLibrary.Models.User.User", b =>
                 {
+                    b.Navigation("GamePlayers");
+
                     b.Navigation("Games");
                 });
 #pragma warning restore 612, 618

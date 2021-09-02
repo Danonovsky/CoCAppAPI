@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DbLibrary.Models.Game;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -15,5 +16,6 @@ namespace DbLibrary.Models.User
         public string Nickname { get; set; }
 
         public virtual ICollection<Game.Game> Games { get; set; }
+        public virtual ICollection<GamePlayer> GamePlayers { get; set; }
     }
 }

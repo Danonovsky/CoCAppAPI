@@ -13,5 +13,6 @@ namespace DbLibrary.Models.Game
         public Guid UserId { get; set; }
 
         public virtual User.User User { get; set; }
+        public virtual ICollection<GamePlayer> GamePlayers { get; set; }
     }
 }

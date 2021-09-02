@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AuthModule.Models
+namespace DbLibrary.Models.User.Response
 {
     public class AuthenticateResponse
     {

@@ -1,5 +1,6 @@
 ﻿using AuthModule.Helpers;
-using AuthModule.Models;
+using DbLibrary.Models.User.Response;
+using DbLibrary.Models.User.Request;
 using AuthModule.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;

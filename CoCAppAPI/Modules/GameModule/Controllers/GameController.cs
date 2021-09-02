@@ -1,4 +1,5 @@
 ﻿using AuthModule.Helpers;
+using DbLibrary.Models.Game.Request;
 using GameModule.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,22 @@ namespace GameModule.Controllers
         {
             var users = _gameService.GetAll();
             return Ok(users);
+        }
+
+        [Authorize]
+        [HttpGet("getPossible")]
+        public IActionResult GetPossible()
+        {
+            var games = _gameService.GetPossible();
+            return Ok(games);
+        }
+
+        [Authorize]
+        [HttpPost("create")]
+        public IActionResult Create(GameCreateRequest model)
+        {
+            if (_gameService.Create(model)) return Ok();
+            else return BadRequest();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AuthModule.Helpers;
-using AuthModule.Models;
+using DbLibrary.Models.User.Response;
+using DbLibrary.Models.User.Request;
 using DbLibrary.Models.User;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

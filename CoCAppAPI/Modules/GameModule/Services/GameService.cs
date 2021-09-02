@@ -8,18 +8,18 @@ using DbLibrary.Models.User;
 using AuthModule.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using DbLibrary.Models.Game.Request;
 
 namespace GameModule.Services
 {
     public interface IGameService
     {
-        public List<Game> GetAll();
+        public List<GameResponse> GetAll();
+        public List<GameResponse> GetUserGames();
+        public List<GameResponse> GetPossible();
+        public List<GameResponse> GetJoinedGames();
 
-        public List<Game> GetUserGames();
-
-        public List<Game> GetPossibleGames();
-
-        public List<Game> GetJoinedGames();
+        public bool Create(GameCreateRequest model);
     }
     public class GameService : IGameService
     {
@@ -34,25 +34,38 @@ namespace GameModule.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public List<Game> GetAll()
+        public List<GameResponse> GetAll()
         {
-            return _context.Games.ToList();
+            return _context.Games.Select(x => new GameResponse(x)).ToList();
         }
 
-        public List<Game> GetUserGames()
+        public List<GameResponse> GetUserGames()
         {
             User user = _httpContextAccessor.HttpContext.Items["User"] as User;
-            return _context.Games.Where(x => x.UserId == user.Id).ToList();
+            return _context.Games.Where(x => x.UserId == user.Id).Select(x => new GameResponse(x)).ToList();
         }
 
-        public List<Game> GetPossibleGames()
+        public List<GameResponse> GetPossible()
         {
-            return _context.Games.Where(x => !x.Private).ToList();
+            return _context.Games.Where(x => !x.Private).Select(x => new GameResponse(x)).ToList();
         }
 
-        public List<Game> GetJoinedGames()
+        public List<GameResponse> GetJoinedGames()
         {
             return null;
+        }
+
+        public bool Create(GameCreateRequest model)
+        {
+            Game game = new Game()
+            {
+                Name = model.Name,
+                Private = model.Private,
+                UserId = (_httpContextAccessor.HttpContext.Items["User"] as User).Id
+            };
+            _context.Games.Add(game);
+
+            return _context.SaveChanges() > 0;
         }
 
 
