@@ -20,6 +20,13 @@ namespace GameModule.Controllers
             _gameService = gameService;
         }
 
+        [HttpGet("get/{id}")]
+        public IActionResult Get(Guid id)
+        {
+            var game = _gameService.Get(id);
+            return Ok(game);
+        }
+
         [Authorize]
         [HttpGet("getAll")]
         public IActionResult GetAll()
@@ -29,10 +36,26 @@ namespace GameModule.Controllers
         }
 
         [Authorize]
-        [HttpGet("getPossible")]
+        [HttpGet("possible")]
         public IActionResult GetPossible()
         {
             var games = _gameService.GetPossible();
+            return Ok(games);
+        }
+
+        [Authorize]
+        [HttpGet("joined")]
+        public IActionResult GetJoined()
+        {
+            var games = _gameService.GetJoinedGames();
+            return Ok(games);
+        }
+
+        [Authorize]
+        [HttpGet("userGames")]
+        public IActionResult GetUserGames()
+        {
+            var games = _gameService.GetUserGames();
             return Ok(games);
         }
 
@@ -41,6 +64,14 @@ namespace GameModule.Controllers
         public IActionResult Create(GameCreateRequest model)
         {
             if (_gameService.Create(model)) return Ok();
+            else return BadRequest();
+        }
+
+        [Authorize]
+        [HttpPost("join")]
+        public IActionResult Join(GamePlayerRequest model)
+        {
+            if (_gameService.Join(model)) return Ok();
             else return BadRequest();
         }
     }

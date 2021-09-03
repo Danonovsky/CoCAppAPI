@@ -12,7 +12,6 @@ namespace DbLibrary.Models.Game
         //public Guid CharacterId { get; set; }
 
         public virtual Game Game { get; set; }
-        //[ForeignKey("UserToGamePlayer")]
         public virtual User.User? User { get; set; }
         public Guid? UserId { get; set; }
     }
