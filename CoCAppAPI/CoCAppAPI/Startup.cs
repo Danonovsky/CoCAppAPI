@@ -1,3 +1,4 @@
+using AdminModule.Services;
 using AuthModule.Helpers;
 using AuthModule.Services;
 using DbLibrary.DAL;
@@ -33,6 +34,7 @@ namespace CoCAppAPI
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRollService, RollService>();
             services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IDefaultCharacteristicService, DefaultCharacteristicService>();
 
             services.AddHttpContextAccessor();
         }

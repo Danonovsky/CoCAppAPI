@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthModule", "AuthModule\Au
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RollModule", "Modules\RollModule\RollModule.csproj", "{A7C0506C-06D8-45D9-B8A1-CC9DAFA4F099}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameModule", "Modules\GameModule\GameModule.csproj", "{5525B75E-E307-497A-BFC1-F143C1C6E017}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameModule", "Modules\GameModule\GameModule.csproj", "{5525B75E-E307-497A-BFC1-F143C1C6E017}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminModule", "Modules\AdminModule\AdminModule.csproj", "{56BD843D-1EFA-462F-BFAD-394AC4017BE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{5525B75E-E307-497A-BFC1-F143C1C6E017}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5525B75E-E307-497A-BFC1-F143C1C6E017}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5525B75E-E307-497A-BFC1-F143C1C6E017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56BD843D-1EFA-462F-BFAD-394AC4017BE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56BD843D-1EFA-462F-BFAD-394AC4017BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56BD843D-1EFA-462F-BFAD-394AC4017BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56BD843D-1EFA-462F-BFAD-394AC4017BE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 		{A9C54624-6953-4F3A-BCCD-BAB8C4F43936} = {BB81470B-7EE5-468D-8044-87364FE6E4D6}
 		{A7C0506C-06D8-45D9-B8A1-CC9DAFA4F099} = {BB81470B-7EE5-468D-8044-87364FE6E4D6}
 		{5525B75E-E307-497A-BFC1-F143C1C6E017} = {BB81470B-7EE5-468D-8044-87364FE6E4D6}
+		{56BD843D-1EFA-462F-BFAD-394AC4017BE6} = {BB81470B-7EE5-468D-8044-87364FE6E4D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12D416E6-23C2-4FB4-B531-A7D7B776A3E6}
