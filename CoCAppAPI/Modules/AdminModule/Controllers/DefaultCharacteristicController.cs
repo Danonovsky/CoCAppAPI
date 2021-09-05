@@ -43,5 +43,23 @@ namespace AdminModule.Controllers
             if (result) return Ok();
             else return BadRequest();
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public IActionResult Delete(Guid id)
+        {
+            var result = _service.Delete(id);
+            if (result) return Ok(result);
+            else return BadRequest(result);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public IActionResult Update(Guid id, DefaultCharacteristicRequest model)
+        {
+            var result = _service.Update(id, model);
+            if (result) return Ok(result);
+            else return BadRequest(result);
+        }
     }
 }

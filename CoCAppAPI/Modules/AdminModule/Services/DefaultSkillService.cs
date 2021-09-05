@@ -2,6 +2,7 @@
 using DbLibrary.Models.Characteristic;
 using DbLibrary.Models.Characteristic.Request;
 using DbLibrary.Models.Characteristic.Response;
+using DbLibrary.Models.Skill;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace AdminModule.Services
 {
-    public interface IDefaultCharacteristicService
+    public interface IDefaultSkillService
     {
         public DefaultCharacteristicResponse Get(Guid id);
         public IEnumerable<DefaultCharacteristicResponse> GetAll();
@@ -19,17 +20,17 @@ namespace AdminModule.Services
         public bool Update(Guid id, DefaultCharacteristicRequest model);
         
     }
-    public class DefaultCharacteristicService : IDefaultCharacteristicService
+    public class DefaultSkillService : IDefaultSkillService
     {
         private readonly CoCDbContext _context;
 
-        public DefaultCharacteristicService(CoCDbContext context)
+        public DefaultSkillService(CoCDbContext context)
         {
             _context = context;
         }
         public bool Add(DefaultCharacteristicRequest model)
         {
-            _context.DefaultCharacteristics.Add(new DefaultCharacteristic(model));
+            _context.DefaultSkills.Add(new DefaultSkill(model));
             return _context.SaveChanges() > 0;
         }
 
