@@ -1,6 +1,7 @@
 ﻿using AdminModule.Services;
 using AuthModule.Helpers;
 using DbLibrary.Models.Characteristic.Request;
+using DbLibrary.Models.Skill.Request;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,12 @@ using System.Text;
 namespace AdminModule.Controllers
 {
     [ApiController]
-    [Route("admin/characteristic")]
-    public class DefaultCharacteristicController : ControllerBase
+    [Route("admin/skill")]
+    public class DefaultSkillController : ControllerBase
     {
-        private readonly IDefaultCharacteristicService _service;
+        private readonly IDefaultSkillService _service;
 
-        public DefaultCharacteristicController(IDefaultCharacteristicService service)
+        public DefaultSkillController(IDefaultSkillService service)
         {
             _service = service;
         }
@@ -37,7 +38,7 @@ namespace AdminModule.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(DefaultCharacteristicRequest model)
+        public IActionResult Add(DefaultSkillRequest model)
         {
             var result = _service.Add(model);
             if (result) return Ok();
@@ -55,7 +56,7 @@ namespace AdminModule.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public IActionResult Update(Guid id, DefaultCharacteristicRequest model)
+        public IActionResult Update(Guid id, DefaultSkillRequest model)
         {
             var result = _service.Update(id, model);
             if (result) return Ok(result);

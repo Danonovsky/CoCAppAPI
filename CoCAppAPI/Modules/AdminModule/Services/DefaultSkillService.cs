@@ -1,8 +1,7 @@
 ﻿using DbLibrary.DAL;
-using DbLibrary.Models.Characteristic;
-using DbLibrary.Models.Characteristic.Request;
-using DbLibrary.Models.Characteristic.Response;
 using DbLibrary.Models.Skill;
+using DbLibrary.Models.Skill.Request;
+using DbLibrary.Models.Skill.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +11,12 @@ namespace AdminModule.Services
 {
     public interface IDefaultSkillService
     {
-        public DefaultCharacteristicResponse Get(Guid id);
-        public IEnumerable<DefaultCharacteristicResponse> GetAll();
-        public bool Add(DefaultCharacteristicRequest model);
-        public bool Edit(DefaultCharacteristic model);
+        public DefaultSkillResponse Get(Guid id);
+        public IEnumerable<DefaultSkillResponse> GetAll();
+        public bool Add(DefaultSkillRequest model);
+        public bool Edit(DefaultSkill model);
         public bool Delete(Guid id);
-        public bool Update(Guid id, DefaultCharacteristicRequest model);
+        public bool Update(Guid id, DefaultSkillRequest model);
         
     }
     public class DefaultSkillService : IDefaultSkillService
@@ -28,7 +27,7 @@ namespace AdminModule.Services
         {
             _context = context;
         }
-        public bool Add(DefaultCharacteristicRequest model)
+        public bool Add(DefaultSkillRequest model)
         {
             _context.DefaultSkills.Add(new DefaultSkill(model));
             return _context.SaveChanges() > 0;
@@ -36,41 +35,40 @@ namespace AdminModule.Services
 
         public bool Delete(Guid id)
         {
-            _context.DefaultCharacteristics.Remove(
-                _context.DefaultCharacteristics.FirstOrDefault(x => x.Id == id)
+            _context.DefaultSkills.Remove(
+                _context.DefaultSkills.FirstOrDefault(x => x.Id == id)
                 );
             return _context.SaveChanges() > 0;
         }
 
-        public bool Edit(DefaultCharacteristic model)
+        public bool Edit(DefaultSkill model)
         {
-            _context.DefaultCharacteristics.Update(model);
+            _context.DefaultSkills.Update(model);
             return _context.SaveChanges() > 0;
         }
 
-        public DefaultCharacteristicResponse Get(Guid id)
+        public DefaultSkillResponse Get(Guid id)
         {
-            var result = _context.DefaultCharacteristics.FirstOrDefault(x => x.Id == id);
-            return new DefaultCharacteristicResponse(result);
+            var result = _context.DefaultSkills.FirstOrDefault(x => x.Id == id);
+            return new DefaultSkillResponse(result);
         }
 
-        public IEnumerable<DefaultCharacteristicResponse> GetAll()
+        public IEnumerable<DefaultSkillResponse> GetAll()
         {
-            var result = _context.DefaultCharacteristics.Select(x => new DefaultCharacteristicResponse(x)).ToList();
+            var result = _context.DefaultSkills.Select(x => new DefaultSkillResponse(x)).ToList();
             return result;
         }
 
-        public bool Update(Guid id, DefaultCharacteristicRequest model)
+        public bool Update(Guid id, DefaultSkillRequest model)
         {
-            DefaultCharacteristic update = new DefaultCharacteristic()
+            DefaultSkill update = new DefaultSkill()
             {
                 Id = id,
                 Name = model.Name,
                 Value = model.Value
             };
 
-            _context.Update(update);
-
+            _context.DefaultSkills.Update(update);
             return _context.SaveChanges() > 0;
         }
     }

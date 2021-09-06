@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DbLibrary.Models.Skill.Request;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,5 +12,12 @@ namespace DbLibrary.Models.Skill
         public int Value { get; set; }
 
         public virtual ICollection<Skill> Skills { get; set; }
+
+        public DefaultSkill() { }
+        public DefaultSkill(DefaultSkillRequest model)
+        {
+            Name = model.Name;
+            Value = model.Value;
+        }
     }
 }

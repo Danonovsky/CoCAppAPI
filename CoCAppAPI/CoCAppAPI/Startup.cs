@@ -35,6 +35,7 @@ namespace CoCAppAPI
             services.AddScoped<IRollService, RollService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IDefaultCharacteristicService, DefaultCharacteristicService>();
+            services.AddScoped<IDefaultSkillService, DefaultSkillService>();
 
             services.AddHttpContextAccessor();
         }

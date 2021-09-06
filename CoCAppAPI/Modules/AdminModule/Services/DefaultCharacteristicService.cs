@@ -68,8 +68,7 @@ namespace AdminModule.Services
                 Value = model.Value
             };
 
-            _context.Update(update);
-
+            _context.DefaultCharacteristics.Update(update);
             return _context.SaveChanges() > 0;
         }
     }
