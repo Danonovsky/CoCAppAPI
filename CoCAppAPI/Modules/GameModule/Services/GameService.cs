@@ -27,7 +27,6 @@ namespace GameModule.Services
     }
     public class GameService : IGameService
     {
-
         private readonly CoCDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         public GameService(
