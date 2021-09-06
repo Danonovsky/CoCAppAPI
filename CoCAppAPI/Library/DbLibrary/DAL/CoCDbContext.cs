@@ -1,6 +1,7 @@
 ﻿using DbLibrary.Models.Character;
 using DbLibrary.Models.Characteristic;
 using DbLibrary.Models.Game;
+using DbLibrary.Models.Item;
 using DbLibrary.Models.Skill;
 using DbLibrary.Models.User;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,10 @@ namespace DbLibrary.DAL
         public DbSet<Characteristic> Characteristics { get; set; }
         public DbSet<DefaultSkill> DefaultSkills { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<ItemAttributeValue> ItemAttributeValues { get; set; }
+        public DbSet<ItemType> ItemTypes { get; set; }
+        public DbSet<ItemTypeAttribute> ItemTypeAttributes { get; set; }
 
 
         public CoCDbContext(DbContextOptions<CoCDbContext> options) : base(options) { }
