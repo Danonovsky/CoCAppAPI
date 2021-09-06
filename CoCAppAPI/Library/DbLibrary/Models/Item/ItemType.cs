@@ -12,6 +12,7 @@ namespace DbLibrary.Models.Item
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<ItemTypeAttribute> ItemTypeAttributes { get; set; }
 
+        public ItemType() { }
         public ItemType(ItemTypeRequest request)
         {
             Name = request.Name;

@@ -11,7 +11,6 @@ namespace DbLibrary.Models.Item
 
         public Guid ItemTypeId { get; set; }
         public virtual ItemType ItemType { get; set; }
-
         public virtual ICollection<ItemAttributeValue> ItemAttributeValues { get; set; }
     }
 }

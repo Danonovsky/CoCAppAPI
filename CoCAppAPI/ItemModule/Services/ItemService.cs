@@ -14,25 +14,25 @@ namespace ItemModule.Services
         public ItemTypeResponse GetItemType(Guid id);
         public List<ItemTypeResponse> GetItemTypes();
         public bool AddItemType(ItemTypeRequest model);
-        public bool UpdateItemType(ItemTypeRequest model);
+        public bool UpdateItemType(Guid id, ItemTypeRequest model);
         public bool DeleteItemType(Guid id);
 
         public ItemTypeAttribute GetItemTypeAttribute(Guid id);
         public List<ItemTypeAttribute> GetItemTypeAttributes();
         public bool AddItemTypeAttribute(ItemTypeAttribute model);
-        public bool UpdateItemTypeAttribute(ItemTypeAttribute model);
+        public bool UpdateItemTypeAttribute(Guid id, ItemTypeAttribute model);
         public bool DeleteItemTypeAttribute(Guid id);
 
         public ItemAttributeValue GetItemAttributeValue(Guid id);
         public List<ItemAttributeValue> GetItemAttributeValues();
         public bool AddItemAttribureValue(ItemAttributeValue model);
-        public bool UpdateItemAttribureValue(ItemAttributeValue model);
+        public bool UpdateItemAttribureValue(Guid id, ItemAttributeValue model);
         public bool DeleteItemAttribureValue(Guid id);
 
         public Item GetItem(Guid id);
         public List<Item> GetItems();
         public bool AddItem(Item model);
-        public bool UpdateItem(Item model);
+        public bool UpdateItem(Guid id, Item model);
         public bool DeleteItem(Guid id);
     }
 
@@ -111,16 +111,6 @@ namespace ItemModule.Services
             return _context.ItemAttributeValues.FirstOrDefault(x => x.Id == id);
         }
 
-        public List<ItemAttributeValue> GetItemAttributeValues()
-        {
-            return _context.ItemAttributeValues.ToList();
-        }
-
-        public List<Item> GetItems()
-        {
-            return _context.Items.ToList();
-        }
-
         public ItemTypeResponse GetItemType(Guid id)
         {
             return new ItemTypeResponse(_context.ItemTypes.FirstOrDefault(x => x.Id == id));
@@ -129,6 +119,16 @@ namespace ItemModule.Services
         public ItemTypeAttribute GetItemTypeAttribute(Guid id)
         {
             return _context.ItemTypeAttributes.FirstOrDefault(x => x.Id == id);
+        }
+
+        public List<ItemAttributeValue> GetItemAttributeValues()
+        {
+            return _context.ItemAttributeValues.ToList();
+        }
+
+        public List<Item> GetItems()
+        {
+            return _context.Items.ToList();
         }
 
         public List<ItemTypeAttribute> GetItemTypeAttributes()
@@ -141,26 +141,32 @@ namespace ItemModule.Services
             return _context.ItemTypes.Select(x => new ItemTypeResponse(x)).ToList();
         }
 
-        public bool UpdateItem(Item model)
+        public bool UpdateItem(Guid id, Item model)
         {
             _context.Update(model);
             return _context.SaveChanges() > 0;
         }
 
-        public bool UpdateItemAttribureValue(ItemAttributeValue model)
+        public bool UpdateItemAttribureValue(Guid id, ItemAttributeValue model)
         {
             _context.Update(model);
             return _context.SaveChanges() > 0;
         }
 
-        public bool UpdateItemType(ItemTypeRequest model)
+        public bool UpdateItemType(Guid id, ItemTypeRequest model)
         {
-            _context.Update(model);
+            ItemType update = new ItemType()
+            {
+                Id = id,
+                Name = model.Name
+            };
+            _context.Update(update);
             return _context.SaveChanges() > 0;
         }
 
-        public bool UpdateItemTypeAttribute(ItemTypeAttribute model)
+        public bool UpdateItemTypeAttribute(Guid id, ItemTypeAttribute model)
         {
+            model.Id = id;
             _context.Update(model);
             return _context.SaveChanges() > 0;
         }

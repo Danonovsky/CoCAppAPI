@@ -3,6 +3,7 @@ using AuthModule.Helpers;
 using AuthModule.Services;
 using DbLibrary.DAL;
 using GameModule.Services;
+using ItemModule.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,7 @@ namespace CoCAppAPI
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IDefaultCharacteristicService, DefaultCharacteristicService>();
             services.AddScoped<IDefaultSkillService, DefaultSkillService>();
+            services.AddScoped<IItemService, ItemService>();
 
             services.AddHttpContextAccessor();
         }
