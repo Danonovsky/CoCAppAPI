@@ -22,6 +22,53 @@ namespace ItemModule.Controllers
             _service = service;
         }
 
+        #region Item
+
+        [HttpGet("item/{id}")]
+        [Authorize]
+        public IActionResult GetItem(Guid id)
+        {
+            var result = _service.GetItem(id);
+            return Ok(result);
+        }
+
+        [HttpGet("item")]
+        [Authorize]
+        public IActionResult GetAllItems()
+        {
+            var result = _service.GetItems();
+            return Ok(result);
+        }
+
+        [HttpPost("item")]
+        [Authorize]
+        public IActionResult AddItem(ItemRequest model)
+        {
+            var result = _service.AddItem(model);
+            if (result) return Ok();
+            else return BadRequest();
+        }
+
+        [HttpDelete("item/{id}")]
+        [Authorize]
+        public IActionResult DeleteItem(Guid id)
+        {
+            var result = _service.DeleteItem(id);
+            if (result) return Ok(result);
+            else return BadRequest(result);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public IActionResult UpdateItem(Guid id, ItemRequest model)
+        {
+            var result = _service.UpdateItem(id, new Item(model));
+            if (result) return Ok(result);
+            else return BadRequest(result);
+        }
+
+        #endregion
+
         #region ItemType
 
         [HttpGet("itemType/{id}")]

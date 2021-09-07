@@ -8,6 +8,6 @@ namespace DbLibrary.Models.Item.Request
     {
         public string Name { get; set; }
         public Guid ItemTypeId { get; set; }
-        public List<ItemAttributeValue> ItemAttributeValues { get; set; }
+        public List<ItemAttributeValueRequest> Attributes { get; set; }
     }
 }

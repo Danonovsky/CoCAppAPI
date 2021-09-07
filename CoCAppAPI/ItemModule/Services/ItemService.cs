@@ -4,8 +4,10 @@ using DbLibrary.Models.Item.Request;
 using DbLibrary.Models.Item.Response;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace ItemModule.Services
 {
@@ -29,9 +31,9 @@ namespace ItemModule.Services
         public bool UpdateItemAttribureValue(Guid id, ItemAttributeValue model);
         public bool DeleteItemAttribureValue(Guid id);
 
-        public Item GetItem(Guid id);
-        public List<Item> GetItems();
-        public bool AddItem(Item model);
+        public ItemResponse GetItem(Guid id);
+        public List<ItemResponse> GetItems();
+        public bool AddItem(ItemRequest model);
         public bool UpdateItem(Guid id, Item model);
         public bool DeleteItem(Guid id);
     }
@@ -46,102 +48,53 @@ namespace ItemModule.Services
         }
 
         #region Item
-        #endregion
 
-        public bool AddItem(Item model)
+        public ItemResponse GetItem(Guid id)
         {
-            _context.Items.Add(model);
-            return _context.SaveChanges() > 0;
-        }
-
-        public bool AddItemAttribureValue(ItemAttributeValue model)
-        {
-            _context.ItemAttributeValues.Add(model);
-            return _context.SaveChanges() > 0;
-        }
-
-        public bool AddItemType(ItemTypeRequest model)
-        {
-            _context.ItemTypes.Add(new ItemType(model));
-            return _context.SaveChanges() > 0;
-        }
-
-        public bool AddItemTypeAttribute(ItemTypeAttributeRequest model)
-        {
-            _context.ItemTypeAttributes.Add(new ItemTypeAttribute(model));
-            return _context.SaveChanges() > 0;
-        }
-
-        public bool DeleteItem(Guid id)
-        {
-            _context.Items.Remove(
-                _context.Items.FirstOrDefault(x => x.Id == id)
+            return new ItemResponse(
+                _context.Items
+                .Include(x => x.ItemType)
+                .Include(x => x.ItemAttributeValues)
+                .ThenInclude(x => x.ItemTypeAttribute)
+                .FirstOrDefault(x => x.Id == id)
                 );
-            return _context.SaveChanges() > 0;
         }
 
-        public bool DeleteItemAttribureValue(Guid id)
+        public List<ItemResponse> GetItems()
         {
-            _context.ItemAttributeValues.Remove(
-                _context.ItemAttributeValues.FirstOrDefault(x => x.Id == id)
-                );
-            return _context.SaveChanges() > 0;
+            return _context
+                .Items
+                .Include(x => x.ItemType)
+                .Include(x => x.ItemAttributeValues)
+                .ThenInclude(x => x.ItemTypeAttribute)
+                .Select(x => new ItemResponse(x))
+                .ToList();
         }
 
-        public bool DeleteItemType(Guid id)
+        public bool AddItem(ItemRequest model)
         {
-            _context.ItemTypes.Remove(
-                _context.ItemTypes.FirstOrDefault(x => x.Id == id)
-                );
-            return _context.SaveChanges() > 0;
-        }
+            Item insert = new Item(model);
+            _context.Items.Add(insert);
+            _context.SaveChanges();
+            Guid savedId = insert.Id;
+            Debug.WriteLine("ILE ATRYBUTOW" + model.Attributes.Count);
+            foreach (var item in model.Attributes)
+            {
+                _context.ItemAttributeValues.Add(new ItemAttributeValue()
+                {
+                    ItemId = savedId,
+                    Value = item.Value,
+                    ItemTypeAttributeId = item.ItemTypeAttributeId
+                });
+            }
 
-        public bool DeleteItemTypeAttribute(Guid id)
-        {
-            _context.ItemTypeAttributes.Remove(
-                _context.ItemTypeAttributes.FirstOrDefault(x => x.Id == id)
-                );
-            return _context.SaveChanges() > 0;
-        }
+            bool result = _context.SaveChanges() > 0;
+            if(!result) {
+                _context.Items.Remove(insert);
+                _context.SaveChanges();
+            }
 
-        public Item GetItem(Guid id)
-        {
-            return _context.Items.FirstOrDefault(x => x.Id == id);
-        }
-
-        public ItemAttributeValue GetItemAttributeValue(Guid id)
-        {
-            return _context.ItemAttributeValues.FirstOrDefault(x => x.Id == id);
-        }
-
-        public ItemTypeResponse GetItemType(Guid id)
-        {
-            return new ItemTypeResponse(_context.ItemTypes.FirstOrDefault(x => x.Id == id));
-        }
-
-        public ItemTypeAttribute GetItemTypeAttribute(Guid id)
-        {
-            return _context.ItemTypeAttributes.FirstOrDefault(x => x.Id == id);
-        }
-
-        public List<ItemAttributeValue> GetItemAttributeValues()
-        {
-            return _context.ItemAttributeValues.ToList();
-        }
-
-        public List<Item> GetItems()
-        {
-            return _context.Items.ToList();
-        }
-
-        public List<ItemTypeAttribute> GetItemTypeAttributes(Guid id)
-        {
-            return _context.ItemTypeAttributes.Where(x => x.ItemTypeId == id).ToList();
-        }
-
-        public List<ItemTypeResponse> GetItemTypes()
-        {
-            return _context.ItemTypes.Select(x => new ItemTypeResponse(x)).ToList();
+            return result;
         }
 
         public bool UpdateItem(Guid id, Item model)
@@ -150,14 +103,35 @@ namespace ItemModule.Services
             return _context.SaveChanges() > 0;
         }
 
-        public bool UpdateItemAttribureValue(Guid id, ItemTypeAttributeRequest model)
+        public bool DeleteItem(Guid id)
         {
-            
-            _context.Update(new ItemTypeAttribute() {
-                Id = id,
-                Name = model.Name,
-                ItemTypeId = model.ItemTypeId
+            _context.ItemAttributeValues.Where(x => x.ItemId == id).ToList().ForEach(i =>
+            {
+                _context.ItemAttributeValues.Remove(i);
             });
+            _context.Items.Remove(
+                _context.Items.FirstOrDefault(x => x.Id == id)
+                );
+            return _context.SaveChanges() > 0;
+        }
+
+        #endregion
+
+        #region ItemType
+
+        public ItemTypeResponse GetItemType(Guid id)
+        {
+            return new ItemTypeResponse(_context.ItemTypes.FirstOrDefault(x => x.Id == id));
+        }
+
+        public List<ItemTypeResponse> GetItemTypes()
+        {
+            return _context.ItemTypes.Select(x => new ItemTypeResponse(x)).ToList();
+        }
+
+        public bool AddItemType(ItemTypeRequest model)
+        {
+            _context.ItemTypes.Add(new ItemType(model));
             return _context.SaveChanges() > 0;
         }
 
@@ -172,11 +146,101 @@ namespace ItemModule.Services
             return _context.SaveChanges() > 0;
         }
 
+        public bool DeleteItemType(Guid id)
+        {
+            _context.ItemTypes.Remove(
+                _context.ItemTypes.FirstOrDefault(x => x.Id == id)
+                );
+            return _context.SaveChanges() > 0;
+        }
+
+        #endregion
+
+        #region ItemTypeAttribute
+
+        public ItemTypeAttribute GetItemTypeAttribute(Guid id)
+        {
+            return _context.ItemTypeAttributes.FirstOrDefault(x => x.Id == id);
+        }
+
+        public List<ItemTypeAttribute> GetItemTypeAttributes(Guid id)
+        {
+            return _context.ItemTypeAttributes.Where(x => x.ItemTypeId == id).ToList();
+        }
+
+        public bool AddItemTypeAttribute(ItemTypeAttributeRequest model)
+        {
+            _context.ItemTypeAttributes.Add(new ItemTypeAttribute(model));
+            return _context.SaveChanges() > 0;
+        }
+
         public bool UpdateItemTypeAttribute(Guid id, ItemTypeAttribute model)
         {
             model.Id = id;
             _context.Update(model);
             return _context.SaveChanges() > 0;
+        }
+
+        public bool DeleteItemTypeAttribute(Guid id)
+        {
+            _context.ItemTypeAttributes.Remove(
+                _context.ItemTypeAttributes.FirstOrDefault(x => x.Id == id)
+                );
+            return _context.SaveChanges() > 0;
+        }
+
+        #endregion
+
+        #region ItemAttributeValue
+
+        public ItemAttributeValue GetItemAttributeValue(Guid id)
+        {
+            return _context.ItemAttributeValues.FirstOrDefault(x => x.Id == id);
+        }
+
+        public List<ItemAttributeValue> GetItemAttributeValues()
+        {
+            return _context.ItemAttributeValues.ToList();
+        }
+
+        public bool AddItemAttribureValue(ItemAttributeValue model)
+        {
+            _context.ItemAttributeValues.Add(model);
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool UpdateItemAttribureValue(Guid id, ItemTypeAttributeRequest model)
+        {
+
+            _context.Update(new ItemTypeAttribute()
+            {
+                Id = id,
+                Name = model.Name,
+                ItemTypeId = model.ItemTypeId
+            });
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool DeleteItemAttribureValue(Guid id)
+        {
+            _context.ItemAttributeValues.Remove(
+                _context.ItemAttributeValues.FirstOrDefault(x => x.Id == id)
+                );
+            return _context.SaveChanges() > 0;
+        }
+
+
+
+        #endregion
+
+        public bool UpdateItemTypeAttribute(Guid id, ItemTypeAttributeRequest model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateItemAttribureValue(Guid id, ItemAttributeValue model)
+        {
+            throw new NotImplementedException();
         }
     }
 }
