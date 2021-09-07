@@ -18,9 +18,9 @@ namespace ItemModule.Services
         public bool DeleteItemType(Guid id);
 
         public ItemTypeAttribute GetItemTypeAttribute(Guid id);
-        public List<ItemTypeAttribute> GetItemTypeAttributes();
-        public bool AddItemTypeAttribute(ItemTypeAttribute model);
-        public bool UpdateItemTypeAttribute(Guid id, ItemTypeAttribute model);
+        public List<ItemTypeAttribute> GetItemTypeAttributes(Guid id);
+        public bool AddItemTypeAttribute(ItemTypeAttributeRequest model);
+        public bool UpdateItemTypeAttribute(Guid id, ItemTypeAttributeRequest model);
         public bool DeleteItemTypeAttribute(Guid id);
 
         public ItemAttributeValue GetItemAttributeValue(Guid id);
@@ -45,6 +45,9 @@ namespace ItemModule.Services
             _context = context;
         }
 
+        #region Item
+        #endregion
+
         public bool AddItem(Item model)
         {
             _context.Items.Add(model);
@@ -63,9 +66,9 @@ namespace ItemModule.Services
             return _context.SaveChanges() > 0;
         }
 
-        public bool AddItemTypeAttribute(ItemTypeAttribute model)
+        public bool AddItemTypeAttribute(ItemTypeAttributeRequest model)
         {
-            _context.ItemTypeAttributes.Add(model);
+            _context.ItemTypeAttributes.Add(new ItemTypeAttribute(model));
             return _context.SaveChanges() > 0;
         }
 
@@ -131,9 +134,9 @@ namespace ItemModule.Services
             return _context.Items.ToList();
         }
 
-        public List<ItemTypeAttribute> GetItemTypeAttributes()
+        public List<ItemTypeAttribute> GetItemTypeAttributes(Guid id)
         {
-            return _context.ItemTypeAttributes.ToList();
+            return _context.ItemTypeAttributes.Where(x => x.ItemTypeId == id).ToList();
         }
 
         public List<ItemTypeResponse> GetItemTypes()
@@ -147,9 +150,14 @@ namespace ItemModule.Services
             return _context.SaveChanges() > 0;
         }
 
-        public bool UpdateItemAttribureValue(Guid id, ItemAttributeValue model)
+        public bool UpdateItemAttribureValue(Guid id, ItemTypeAttributeRequest model)
         {
-            _context.Update(model);
+            
+            _context.Update(new ItemTypeAttribute() {
+                Id = id,
+                Name = model.Name,
+                ItemTypeId = model.ItemTypeId
+            });
             return _context.SaveChanges() > 0;
         }
 

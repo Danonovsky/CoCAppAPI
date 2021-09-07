@@ -24,7 +24,7 @@ namespace ItemModule.Controllers
 
         #region ItemType
 
-        [HttpGet("/itemType/{id}")]
+        [HttpGet("itemType/{id}")]
         [Authorize]
         public IActionResult GetItemType(Guid id)
         {
@@ -66,9 +66,54 @@ namespace ItemModule.Controllers
             if (result) return Ok(result);
             else return BadRequest(result);
         }
+
+        #endregion
+
+        #region ItemTypeAttribute
+
+        [HttpGet("itemTypeAttribute/{id}")]
+        [Authorize]
+        public IActionResult GetItemTypeAttribute(Guid id)
+        {
+            var result = _service.GetItemType(id);
+            return Ok(result);
+        }
+
+        [HttpGet("itemTypeAttribute/all/{id}")]
+        [Authorize]
+        public IActionResult GetAllItemTypeAttributes(Guid id)
+        {
+            var result = _service.GetItemTypeAttributes(id);
+            return Ok(result);
+        }
+
+        [HttpPost("itemTypeAttribute")]
+        [Authorize]
+        public IActionResult Add(ItemTypeAttributeRequest model)
+        {
+            var result = _service.AddItemTypeAttribute(model);
+            if (result) return Ok();
+            else return BadRequest();
+        }
+
+        [HttpDelete("itemTypeAttribute/{id}")]
+        [Authorize]
+        public IActionResult DeleteItemTypeAttribute(Guid id)
+        {
+            var result = _service.DeleteItemTypeAttribute(id);
+            if (result) return Ok(result);
+            else return BadRequest(result);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public IActionResult UpdateItemTypeAttribute(Guid id, ItemTypeAttributeRequest model)
+        {
+            var result = _service.UpdateItemTypeAttribute(id, model);
+            if (result) return Ok(result);
+            else return BadRequest(result);
+        }
+
+        #endregion
     }
-
-    #endregion
-
-
 }
