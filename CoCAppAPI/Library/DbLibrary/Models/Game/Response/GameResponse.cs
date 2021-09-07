@@ -10,12 +10,14 @@ namespace DbLibrary.Models.Game
         public Guid Id { get; set; }
         public string Name { get; set; }
         public UserListResponse User { get; set; }
+        public bool IsOwner { get; set; }
 
         public GameResponse(Game game)
         {
             Id = game.Id;
             Name = game.Name;
             User = new UserListResponse(game.User);
+            IsOwner = false;
         }
     }
 }

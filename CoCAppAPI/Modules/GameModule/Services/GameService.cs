@@ -39,8 +39,11 @@ namespace GameModule.Services
 
         public GameResponse Get(Guid id)
         {
+            User user = _httpContextAccessor.HttpContext.Items["User"] as User;
             var result = _context.Games.Include(x => x.User).FirstOrDefault(x => x.Id == id);
-            return new GameResponse(result);
+            var response = new GameResponse(result);
+            if (user.Id == response.User.Id) response.IsOwner = true;
+            return response;
         }
 
         public List<GameResponse> GetAll()
