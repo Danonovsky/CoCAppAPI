@@ -77,7 +77,7 @@ namespace ItemModule.Services
             _context.Items.Add(insert);
             _context.SaveChanges();
             Guid savedId = insert.Id;
-            Debug.WriteLine("ILE ATRYBUTOW" + model.Attributes.Count);
+            //Debug.WriteLine("ILE ATRYBUTOW" + model.Attributes.Count);
             foreach (var item in model.Attributes)
             {
                 _context.ItemAttributeValues.Add(new ItemAttributeValue()
@@ -88,7 +88,7 @@ namespace ItemModule.Services
                 });
             }
 
-            bool result = _context.SaveChanges() > 0;
+            bool result = _context.SaveChanges() == model.Attributes.Count;
             if(!result) {
                 _context.Items.Remove(insert);
                 _context.SaveChanges();
