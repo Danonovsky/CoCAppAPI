@@ -14,5 +14,6 @@ namespace DbLibrary.Models.Game
 
         public virtual User.User User { get; set; }
         public virtual ICollection<GamePlayer> GamePlayers { get; set; }
+        public virtual ICollection<Location.Location> Locations { get; set; }
     }
 }

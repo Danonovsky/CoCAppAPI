@@ -16,6 +16,9 @@ using DbLibrary.Models.Character;
 using DbLibrary.Models.Characteristic;
 using DbLibrary.Models.Character.Response;
 using DbLibrary.Models.Characteristic.Response;
+using DbLibrary.Models.Location.Request;
+using DbLibrary.Models.Location;
+using DbLibrary.Models.Location.Response;
 
 namespace GameModule.Services
 {
@@ -25,6 +28,9 @@ namespace GameModule.Services
         public bool AddCharacter(CharacterRequest request);
         public List<CharacterResponse> GetAllCharacters(Guid gameId);
         public bool DeleteCharacter(Guid id);
+        public bool AddLocation(LocationRequest request);
+        public List<LocationResponse> GetAllLocations(Guid id);
+        public bool DeleteLocation(Guid id);
     }
     public class ManagementService : IManagementService
     {
@@ -110,6 +116,23 @@ namespace GameModule.Services
             _context.Characters.Remove(
                 _context.Characters.Find(id));
 
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool AddLocation(LocationRequest request)
+        {
+            _context.Add(new Location(request));
+            return _context.SaveChanges() > 0;
+        }
+
+        public List<LocationResponse> GetAllLocations(Guid id)
+        {
+            return _context.Locations.Where(x => x.GameId == id).Select(x => new LocationResponse(x)).ToList();
+        }
+
+        public bool DeleteLocation(Guid id)
+        {
+            _context.Locations.Remove(_context.Locations.Find(id));
             return _context.SaveChanges() > 0;
         }
     }

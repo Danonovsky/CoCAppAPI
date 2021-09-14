@@ -4,14 +4,16 @@ using DbLibrary.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoCAppAPI.Migrations
 {
     [DbContext(typeof(CoCDbContext))]
-    partial class CoCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210914221112_SimpleLocationAdded")]
+    partial class SimpleLocationAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,15 +215,10 @@ namespace CoCAppAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GameId");
 
                     b.ToTable("Locations");
                 });
@@ -386,17 +383,6 @@ namespace CoCAppAPI.Migrations
                     b.Navigation("ItemType");
                 });
 
-            modelBuilder.Entity("DbLibrary.Models.Location.Location", b =>
-                {
-                    b.HasOne("DbLibrary.Models.Game.Game", "Game")
-                        .WithMany("Locations")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
             modelBuilder.Entity("DbLibrary.Models.Skill.Skill", b =>
                 {
                     b.HasOne("DbLibrary.Models.Character.Character", "Character")
@@ -432,8 +418,6 @@ namespace CoCAppAPI.Migrations
             modelBuilder.Entity("DbLibrary.Models.Game.Game", b =>
                 {
                     b.Navigation("GamePlayers");
-
-                    b.Navigation("Locations");
                 });
 
             modelBuilder.Entity("DbLibrary.Models.Item.Item", b =>

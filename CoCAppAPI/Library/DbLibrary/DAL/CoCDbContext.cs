@@ -2,6 +2,7 @@
 using DbLibrary.Models.Characteristic;
 using DbLibrary.Models.Game;
 using DbLibrary.Models.Item;
+using DbLibrary.Models.Location;
 using DbLibrary.Models.Skill;
 using DbLibrary.Models.User;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace DbLibrary.DAL
         public DbSet<ItemAttributeValue> ItemAttributeValues { get; set; }
         public DbSet<ItemType> ItemTypes { get; set; }
         public DbSet<ItemTypeAttribute> ItemTypeAttributes { get; set; }
+        public DbSet<Location> Locations { get; set; }
 
 
         public CoCDbContext(DbContextOptions<CoCDbContext> options) : base(options) { }

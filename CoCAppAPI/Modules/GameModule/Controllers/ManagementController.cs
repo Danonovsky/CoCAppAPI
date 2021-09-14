@@ -1,6 +1,7 @@
 ﻿using AuthModule.Helpers;
 using DbLibrary.Models.Character.Request;
 using DbLibrary.Models.Game.Request;
+using DbLibrary.Models.Location.Request;
 using GameModule.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +48,31 @@ namespace GameModule.Controllers
         public IActionResult DeleteCharacter(Guid id)
         {
             var result = _managementService.DeleteCharacter(id);
+            if (result) return Ok();
+            else return BadRequest();
+        }
+
+        [Authorize]
+        [HttpPost("location")]
+        public IActionResult AddLocation(LocationRequest request)
+        {
+            if (_managementService.AddLocation(request)) return Ok();
+            else return BadRequest();
+        }
+
+        [Authorize]
+        [HttpGet("location/all/{id}")]
+        public IActionResult GetAllLocations(Guid id)
+        {
+            var result = _managementService.GetAllLocations(id);
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpDelete("location/{id}")]
+        public IActionResult DeleteLocation(Guid id)
+        {
+            var result = _managementService.DeleteLocation(id);
             if (result) return Ok();
             else return BadRequest();
         }
