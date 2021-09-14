@@ -1,0 +1,54 @@
+﻿using AuthModule.Helpers;
+using DbLibrary.Models.Character.Request;
+using DbLibrary.Models.Game.Request;
+using GameModule.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace GameModule.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class ManagementController : ControllerBase
+    {
+        private IGameService _gameService;
+        private IManagementService _managementService;
+
+        public ManagementController(
+            IGameService gameService,
+            IManagementService managementService
+            )
+        {
+            _gameService = gameService;
+            _managementService = managementService;
+        }
+
+        [Authorize]
+        [HttpPost("character")]
+        public IActionResult AddCharacter(CharacterRequest request)
+        {
+            if (_managementService.AddCharacter(request)) return Ok();
+            else return BadRequest();
+        }
+
+        [Authorize]
+        [HttpGet("character/all/{id}")]
+        public IActionResult GetAllCharacters(Guid id)
+        {
+            var result = _managementService.GetAllCharacters(id);
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpDelete("character/{id}")]
+        public IActionResult DeleteCharacter(Guid id)
+        {
+            var result = _managementService.DeleteCharacter(id);
+            if (result) return Ok();
+            else return BadRequest();
+        }
+    }
+}

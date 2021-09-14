@@ -8,7 +8,6 @@ namespace DbLibrary.Models.Characteristic
     public class Characteristic
     {
         public Guid Id { get; set; }
-
         public Guid CharacterId { get; set; }
         public virtual Character.Character Character { get; set; }
 

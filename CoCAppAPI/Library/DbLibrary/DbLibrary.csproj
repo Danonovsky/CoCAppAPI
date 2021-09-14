@@ -17,9 +17,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Character\Response\" />
-    <Folder Include="Models\Character\Request\" />
-  </ItemGroup>
-
 </Project>

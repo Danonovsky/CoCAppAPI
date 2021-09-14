@@ -35,6 +35,7 @@ namespace CoCAppAPI
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRollService, RollService>();
             services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IManagementService, ManagementService>();
             services.AddScoped<IDefaultCharacteristicService, DefaultCharacteristicService>();
             services.AddScoped<IDefaultSkillService, DefaultSkillService>();
             services.AddScoped<IItemService, ItemService>();

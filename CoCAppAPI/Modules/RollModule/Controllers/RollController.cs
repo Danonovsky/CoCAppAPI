@@ -23,5 +23,12 @@ namespace RollModule.Controllers
             var result = _rollService.GetRoll(roll);
             return Ok(result);
         }
+
+        [HttpPost("many")]
+        public IActionResult GetRolls(List<RollRequest> roll)
+        {
+            var result = _rollService.GetRoll(roll);
+            return Ok(result);
+        }
     }
 }

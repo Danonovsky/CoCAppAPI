@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DbLibrary.Models.Game;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,6 +14,7 @@ namespace DbLibrary.Models.Character
 
         public virtual ICollection<Characteristic.Characteristic> Characteristics { get; set; }
         public virtual ICollection<Skill.Skill> Skills { get; set; }
+        public virtual ICollection<GamePlayer> GamePlayers { get; set; }
     }
 
     public enum Gender
