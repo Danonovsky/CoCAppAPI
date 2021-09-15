@@ -94,7 +94,7 @@ namespace GameModule.Services
         public List<CharacterResponse> GetAllCharacters(Guid gameId)
         {
             return _context.GamePlayers
-                .Where(x => x.GameId == gameId)
+                .Where(x => x.GameId == gameId && x.CharacterId != null)
                 .Include(x => x.Character)
                 .ThenInclude(x => x.Characteristics)
                 .ThenInclude(x => x.DefaultCharacteristic)
