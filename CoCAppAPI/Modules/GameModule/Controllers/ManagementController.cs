@@ -2,6 +2,7 @@
 using DbLibrary.Models.Character.Request;
 using DbLibrary.Models.Game.Request;
 using DbLibrary.Models.Location.Request;
+using DbLibrary.Models.Note.Request;
 using GameModule.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -73,6 +74,31 @@ namespace GameModule.Controllers
         public IActionResult DeleteLocation(Guid id)
         {
             var result = _managementService.DeleteLocation(id);
+            if (result) return Ok();
+            else return BadRequest();
+        }
+
+        [Authorize]
+        [HttpPost("location/note")]
+        public IActionResult AddNoteFromLocation(NoteRequest request)
+        {
+            if (_managementService.AddNoteToLocation(request)) return Ok();
+            else return BadRequest();
+        }
+
+        [Authorize]
+        [HttpGet("location/note/all/{id}")]
+        public IActionResult GetNotesFromLocation(Guid id)
+        {
+            var result =_managementService.GetNotesFromLocation(id);
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpDelete("location/note/{id}")]
+        public IActionResult DeleteNoteFromLocation(Guid id)
+        {
+            var result = _managementService.DeleteNoteFromLocation(id);
             if (result) return Ok();
             else return BadRequest();
         }

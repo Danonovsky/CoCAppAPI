@@ -19,6 +19,9 @@ using DbLibrary.Models.Characteristic.Response;
 using DbLibrary.Models.Location.Request;
 using DbLibrary.Models.Location;
 using DbLibrary.Models.Location.Response;
+using DbLibrary.Models.Note.Request;
+using DbLibrary.Models.Note;
+using DbLibrary.Models.Note.Response;
 
 namespace GameModule.Services
 {
@@ -31,6 +34,9 @@ namespace GameModule.Services
         public bool AddLocation(LocationRequest request);
         public List<LocationResponse> GetAllLocations(Guid id);
         public bool DeleteLocation(Guid id);
+        public bool AddNoteToLocation(NoteRequest request);
+        public List<NoteResponse> GetNotesFromLocation(Guid locationId);
+        public bool DeleteNoteFromLocation(Guid id);
     }
     public class ManagementService : IManagementService
     {
@@ -133,6 +139,42 @@ namespace GameModule.Services
         public bool DeleteLocation(Guid id)
         {
             _context.Locations.Remove(_context.Locations.Find(id));
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool AddNoteToLocation(NoteRequest request)
+        {
+            var note = new Note{ Content = request.Content };
+            _context.Notes.Add(note);
+            _context.SaveChanges();
+
+            var insert = note.Id;
+            _context.LocationNotes.Add(new LocationNote
+            {
+                LocationId = request.LocationId,
+                NoteId = insert
+            });
+            return _context.SaveChanges() > 0;
+        }
+
+        public List<NoteResponse> GetNotesFromLocation(Guid locationId)
+        {
+            var justList = _context.LocationNotes.Where(x => x.LocationId == locationId);
+            var list = _context.LocationNotes.Where(x => x.LocationId == locationId)
+                .Include(x => x.Note)
+                .Select(x => new NoteResponse
+                {
+                    Content = x.Note.Content,
+                    Id = x.Note.Id
+                }).ToList();
+            return list;
+        }
+
+        public bool DeleteNoteFromLocation(Guid id)
+        {
+            _context.LocationNotes.RemoveRange(
+                _context.LocationNotes.Where(x => x.NoteId == id).ToList());
+            _context.Notes.Remove(_context.Notes.Find(id));
             return _context.SaveChanges() > 0;
         }
     }

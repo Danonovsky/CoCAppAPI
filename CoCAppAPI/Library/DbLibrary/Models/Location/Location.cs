@@ -11,6 +11,7 @@ namespace DbLibrary.Models.Location
         public string Name { get; set; }
         public Guid GameId { get; set; }
         public virtual Game.Game Game { get; set; }
+        public virtual ICollection<LocationNote> LocationNotes { get; set; }
 
         public Location() { }
         public Location(LocationRequest request)
