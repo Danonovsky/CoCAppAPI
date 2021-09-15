@@ -23,6 +23,7 @@ using DbLibrary.Models.Note.Request;
 using DbLibrary.Models.Note;
 using DbLibrary.Models.Note.Response;
 using DbLibrary.Models.Item.Response;
+using DbLibrary.Models.Game.Response;
 
 namespace GameModule.Services
 {
@@ -42,6 +43,7 @@ namespace GameModule.Services
         public List<LocationItemResponse> GetItemsFromLocation(Guid locationId);
         public bool DeleteItemFromLocation(Guid id);
         public List<NoteListResponse> GetAllNotes(Guid id);
+        public List<PlayerResponse> GetPlayers(Guid id);
     }
     public class ManagementService : IManagementService
     {
@@ -224,6 +226,19 @@ namespace GameModule.Services
                     Location = x.Location.Name,
                     Content = x.Note.Content,
                     Id = x.Note.Id
+                }).ToList();
+            return list;
+        }
+
+        public List<PlayerResponse> GetPlayers(Guid id)
+        {
+            var list = _context.GamePlayers
+                .Where(x => x.GameId == id && x.UserId != null)
+                .Include(x => x.User)
+                .Select(x => new PlayerResponse
+                {
+                    Id = x.User.Id,
+                    Nickname = x.User.Nickname
                 }).ToList();
             return list;
         }
