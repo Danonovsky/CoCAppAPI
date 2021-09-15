@@ -41,6 +41,7 @@ namespace GameModule.Services
         public bool AddItemToLocation(LocationItemRequest request);
         public List<LocationItemResponse> GetItemsFromLocation(Guid locationId);
         public bool DeleteItemFromLocation(Guid id);
+        public List<NoteListResponse> GetAllNotes(Guid id);
     }
     public class ManagementService : IManagementService
     {
@@ -210,6 +211,21 @@ namespace GameModule.Services
             _context.LocationItems.Remove(
                 _context.LocationItems.Where(x => x.Id == id).First());
             return _context.SaveChanges() > 0;
+        }
+
+        public List<NoteListResponse> GetAllNotes(Guid id)
+        {
+            var list = _context.LocationNotes
+                .Include(x => x.Location)
+                .Include(x => x.Note)
+                .Where(x => x.Location.GameId == id)
+                .Select(x => new NoteListResponse
+                {
+                    Location = x.Location.Name,
+                    Content = x.Note.Content,
+                    Id = x.Note.Id
+                }).ToList();
+            return list;
         }
     }
 }

@@ -127,5 +127,13 @@ namespace GameModule.Controllers
             if (result) return Ok();
             else return BadRequest();
         }
+
+        [Authorize]
+        [HttpGet("notes/{id}")]
+        public IActionResult GetAllNotes(Guid id)
+        {
+            var result = _managementService.GetAllNotes(id);
+            return Ok(result);
+        }
     }
 }
