@@ -22,6 +22,7 @@ using DbLibrary.Models.Location.Response;
 using DbLibrary.Models.Note.Request;
 using DbLibrary.Models.Note;
 using DbLibrary.Models.Note.Response;
+using DbLibrary.Models.Item.Response;
 
 namespace GameModule.Services
 {
@@ -37,6 +38,9 @@ namespace GameModule.Services
         public bool AddNoteToLocation(NoteRequest request);
         public List<NoteResponse> GetNotesFromLocation(Guid locationId);
         public bool DeleteNoteFromLocation(Guid id);
+        public bool AddItemToLocation(LocationItemRequest request);
+        public List<LocationItemResponse> GetItemsFromLocation(Guid locationId);
+        public bool DeleteItemFromLocation(Guid id);
     }
     public class ManagementService : IManagementService
     {
@@ -159,7 +163,6 @@ namespace GameModule.Services
 
         public List<NoteResponse> GetNotesFromLocation(Guid locationId)
         {
-            var justList = _context.LocationNotes.Where(x => x.LocationId == locationId);
             var list = _context.LocationNotes.Where(x => x.LocationId == locationId)
                 .Include(x => x.Note)
                 .Select(x => new NoteResponse
@@ -175,6 +178,37 @@ namespace GameModule.Services
             _context.LocationNotes.RemoveRange(
                 _context.LocationNotes.Where(x => x.NoteId == id).ToList());
             _context.Notes.Remove(_context.Notes.Find(id));
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool AddItemToLocation(LocationItemRequest request)
+        {
+            _context.LocationItems.Add(new LocationItem
+            {
+                ItemId = request.ItemId,
+                LocationId = request.LocationId
+            });
+
+            return _context.SaveChanges() > 0;
+        }
+
+        public List<LocationItemResponse> GetItemsFromLocation(Guid locationId)
+        {
+            var list = _context.LocationItems.Where(x => x.LocationId == locationId)
+                .Include(x => x.Item)
+                .ThenInclude(x => x.ItemType)
+                .Include(x => x.Item)
+                .ThenInclude(x => x.ItemAttributeValues)
+                .ThenInclude(x => x.ItemTypeAttribute)
+                .Select(x => new LocationItemResponse(x))
+                .ToList();
+            return list;
+        }
+
+        public bool DeleteItemFromLocation(Guid id)
+        {
+            _context.LocationItems.Remove(
+                _context.LocationItems.Where(x => x.Id == id).First());
             return _context.SaveChanges() > 0;
         }
     }

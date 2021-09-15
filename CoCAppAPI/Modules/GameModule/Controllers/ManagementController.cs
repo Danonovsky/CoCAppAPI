@@ -102,5 +102,30 @@ namespace GameModule.Controllers
             if (result) return Ok();
             else return BadRequest();
         }
+
+        [Authorize]
+        [HttpPost("location/item")]
+        public IActionResult AddItemFromLocation(LocationItemRequest request)
+        {
+            if (_managementService.AddItemToLocation(request)) return Ok();
+            else return BadRequest();
+        }
+
+        [Authorize]
+        [HttpGet("location/item/all/{id}")]
+        public IActionResult GetItemsFromLocation(Guid id)
+        {
+            var result = _managementService.GetItemsFromLocation(id);
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpDelete("location/item/{id}")]
+        public IActionResult DeleteItemFromLocation(Guid id)
+        {
+            var result = _managementService.DeleteItemFromLocation(id);
+            if (result) return Ok();
+            else return BadRequest();
+        }
     }
 }

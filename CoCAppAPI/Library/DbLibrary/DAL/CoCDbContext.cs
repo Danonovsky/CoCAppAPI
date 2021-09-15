@@ -30,6 +30,7 @@ namespace DbLibrary.DAL
         public DbSet<ItemTypeAttribute> ItemTypeAttributes { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<LocationNote> LocationNotes { get; set; }
+        public DbSet<LocationItem> LocationItems { get; set; }
         public DbSet<Note> Notes { get; set; }
 
 

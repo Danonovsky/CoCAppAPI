@@ -1,4 +1,5 @@
 ﻿using DbLibrary.Models.Item.Request;
+using DbLibrary.Models.Location;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,7 @@ namespace DbLibrary.Models.Item
         public Guid ItemTypeId { get; set; }
         public virtual ItemType ItemType { get; set; }
         public virtual ICollection<ItemAttributeValue> ItemAttributeValues { get; set; }
+        public virtual ICollection<LocationItem> LocationItems { get; set; }
 
         public Item() { }
         public Item(ItemRequest request)
