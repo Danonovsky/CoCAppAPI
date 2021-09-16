@@ -24,6 +24,7 @@ using DbLibrary.Models.Note;
 using DbLibrary.Models.Note.Response;
 using DbLibrary.Models.Item.Response;
 using DbLibrary.Models.Game.Response;
+using System.IO;
 
 namespace GameModule.Services
 {
@@ -56,14 +57,14 @@ namespace GameModule.Services
             _context = context;
             _httpContextAccessor = httpContextAccessor;
         }
-
         public bool AddCharacter(CharacterRequest request)
         {
             Character insert = new Character
             {
                 FirstName = request.FirstName,
                 Gender = request.Gender == "Male" ? Gender.Male : Gender.Female,
-                LastName = request.LastName
+                LastName = request.LastName,
+                Image = request.Image
             };
 
             _context.Add(insert);
@@ -104,6 +105,7 @@ namespace GameModule.Services
                     LastName = x.Character.LastName,
                     Gender = x.Character.Gender.ToString(),
                     Id = x.Character.Id,
+                    Image = x.Character.Image,
                     Characteristics = x.Character.Characteristics.Select(y => new CharacteristicResponse(y)).ToList()
                 }).ToList();
         }

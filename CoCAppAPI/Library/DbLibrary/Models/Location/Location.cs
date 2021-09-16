@@ -9,6 +9,7 @@ namespace DbLibrary.Models.Location
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string Image { get; set; }
         public Guid GameId { get; set; }
         public virtual Game.Game Game { get; set; }
         public virtual ICollection<LocationNote> LocationNotes { get; set; }
@@ -19,6 +20,7 @@ namespace DbLibrary.Models.Location
         {
             Name = request.Name;
             GameId = request.GameId;
+            Image = request.Image;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace DbLibrary.Models.Location.Response
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string Image { get; set; }
         public Guid GameId { get; set; }
 
         public LocationResponse() { }
@@ -16,6 +17,7 @@ namespace DbLibrary.Models.Location.Response
             Id = location.Id;
             Name = location.Name;
             GameId = location.GameId;
+            Image = location.Image;
         }
     }
 }

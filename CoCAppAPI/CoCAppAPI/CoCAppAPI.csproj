@@ -20,5 +20,9 @@
     <ProjectReference Include="..\Modules\RollModule\RollModule.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Images\" />
+  </ItemGroup>
+
 
 </Project>

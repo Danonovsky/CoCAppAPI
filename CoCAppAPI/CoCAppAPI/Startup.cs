@@ -6,11 +6,15 @@ using GameModule.Services;
 using ItemModule.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using RollModule.Services;
+using System.IO;
 
 namespace CoCAppAPI
 {
@@ -30,6 +34,11 @@ namespace CoCAppAPI
             services.AddControllers();
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
 
             services.AddDbContext<CoCDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection"), b => b.MigrationsAssembly("CoCAppAPI")));
             services.AddScoped<IUserService, UserService>();
@@ -52,6 +61,12 @@ namespace CoCAppAPI
             }
 
             //app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources/Images")),
+                RequestPath = new PathString("/Resources/Images")
+            });
 
             app.UseRouting();
 

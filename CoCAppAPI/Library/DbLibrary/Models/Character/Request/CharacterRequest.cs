@@ -11,6 +11,7 @@ namespace DbLibrary.Models.Character.Request
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Guid GameId { get; set; }
+        public string Image { get; set; }
         public List<CharacteristicRequest> Characteristics { get; set; }
     }
 }
